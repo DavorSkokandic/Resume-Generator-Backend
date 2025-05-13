@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
+import resumeRoutes from './routes/resume';
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.get('/', (_req, res) => {
   res.send('Resume Generator Backend Running!');
 });
 app.use('/api/auth', authRoutes);
+app.use('/api/resume', resumeRoutes);
 
 // Optional: Global error handler
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
