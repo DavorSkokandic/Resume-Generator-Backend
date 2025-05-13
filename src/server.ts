@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth';
 
 dotenv.config();
 
@@ -10,6 +11,13 @@ app.use(express.json());
 
 app.get('/', (_req, res) => {
   res.send('Resume Generator Backend Running!');
+});
+app.use('/api/auth', authRoutes);
+
+// Optional: Global error handler
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 const PORT = process.env.PORT || 5000;
