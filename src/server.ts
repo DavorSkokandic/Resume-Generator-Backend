@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import resumeRoutes from './routes/resume';
+import  {errorHandler, notFoundHandler} from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -15,6 +16,9 @@ app.get('/', (_req, res) => {
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/resume', resumeRoutes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 // Optional: Global error handler
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
