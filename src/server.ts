@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth';
+import resumeRoutes from './routes/resume';
+import  {errorHandler, notFoundHandler} from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -10,6 +13,17 @@ app.use(express.json());
 
 app.get('/', (_req, res) => {
   res.send('Resume Generator Backend Running!');
+});
+app.use('/api/auth', authRoutes);
+app.use('/api/resume', resumeRoutes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+// Optional: Global error handler
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 const PORT = process.env.PORT || 5000;
